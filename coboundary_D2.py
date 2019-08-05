@@ -1,5 +1,10 @@
+import numpy as np
+import dionysus
+
 def coboundary(vietoris_rips, thr, n_nodes=100):
     '''
+    Compute coboundary matrices of the Vietoris-Rips complex with ball radius thr for dionysus 2.0
+    
     Parameters
     ----------
     vietoris_rips: dionysus._dionysus.Filtration
@@ -8,7 +13,6 @@ def coboundary(vietoris_rips, thr, n_nodes=100):
 
     Returns
     -------
-
     list of coboundary matrices
     '''
 
