@@ -13,7 +13,7 @@ def coboundary(vietoris_rips, thr, n_nodes=100):
 
     Returns
     -------
-    list of coboundary matrices
+    list of coboundary matrices [d1,d2,...]. 
     '''
 
     D = {}
