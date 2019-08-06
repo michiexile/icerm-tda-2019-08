@@ -1,7 +1,7 @@
 import numpy as np
 import dionysus
 
-def coboundary(vietoris_rips, thr, n_nodes=100):
+def coboundary(vr, thr, n_nodes=100):
     '''
     Compute coboundary matrices of the Vietoris-Rips complex with ball radius thr for dionysus 2.0
     
@@ -20,7 +20,6 @@ def coboundary(vietoris_rips, thr, n_nodes=100):
     data = {}
     indexing = {}
     ix = [0]*n_nodes
-    thr = 1.5
     for s in vr:
         if s.dimension() == 0:
             continue
