@@ -14,6 +14,8 @@ def coboundary(vr, thr, n_nodes=100):
     Returns
     -------
     list of coboundary matrices [d1,d2,...]. 
+    
+    dict(dict()) for every dimension k, a dictionary with keys the simplices of dimension k and the relative column id in the coboundary matrix
     '''
 
     D = {}
@@ -38,9 +40,6 @@ def coboundary(vr, thr, n_nodes=100):
                 ix[s.dimension()-1] += 1
             D[s.dimension()][0].append(indexing[s.dimension()][s]) #rows
             D[s.dimension()][1].append(indexing[s.dimension()-1][k]) #cols
-            if dat%2:
-                data[s.dimension()].append(-1)
-            else:
-                data[s.dimension()].append(1)
+            data[s.dimension()].append(1. if dat % 2 == 0 else -1.)
     import scipy as sp
-    return [sp.sparse.csr_matrix((data[d], (D[d][0], D[d][1]))).todense() for d in range(1,max(D.keys())+1)]
+    return [sp.sparse.csr_matrix((data[d], (D[d][0], D[d][1]))).todense() for d in range(1,max(D.keys())+1)], indexing
