@@ -24,15 +24,13 @@ costfunc1p = @(x)costfunc1(x)+lambda*costfuncp(x);
 %z_min = fmincon(costfunc12,z0,transpose(z0),10);sum(z_m); % constrained
 %minimizer, fast bu tinaccurate.
 
-%options = optimoptions('fminunc','Algorithm','trust-region','SpecifyObjectiveGradient',true);
-options = optimoptions(@fminunc,'Display','iter','Algorithm','quasi-newton','MaxIterations',10);
+opts = optimoptions(@fmincon,'Algorithm','sqp','MaxIterations',150)
+z_min = fminunc(costfunc12,z0,opts)
 
-%x0 = [-1,2];
-%fun = @costwithgrad;
-%z_min = fminunc(costfunc1,z0,options)
-z_min = fminunc(costfunc12,z0,options)
+
+
 
 
 %Show the minimum and the argmin.
 z_min
-costf_min = costfunc12(z_min)
+costfunc(z_min)
