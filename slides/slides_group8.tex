@@ -32,9 +32,8 @@
 
 \usepackage{babel}
 \begin{document}
-\title{Title Circular Coordinates under Different Cost Functions}
+\title{Circular Coordinates under Different Cost Functions}
 \subtitle{Group 8 Project}
-\author[Author, Another]{F.~Author\inst{1} \and S.~Another\inst{2}}
 \institute{ICERM August 2019}
 \date{Applied Mathematical Modeling with Topological Techniques}
 \makebeamertitle
@@ -44,19 +43,24 @@
 consider the homology and cohomology with a fixed coefficient field
 $\mathbb{K}$.
 \item Homology and boundary operator: $\partial:C_{k}(K)\rightarrow C_{k-1}(K)$.
-e.g. $[1,2,3]\mapsto[1,2]+[2,3]+[3,1]$
+e.g. $\partial[a,b,c]=[a,b]+[b,c]+[c,a]$
 \item Cohomology and coboundary operator: $\delta:C^{k}(K)\rightarrow C^{k+1}$.
-e.g. $\{1,2,3\}\mapsto[1,2,3]$
-\item Intuition: If you think of boundary operators as ``differentiation'',
+e.g. $\delta\left[\begin{array}{c}
+a\mapsto1\\
+b\mapsto0\\
+c\mapsto0
+\end{array}\right]=-[a,b]^{*}-[a,c]^{*}$ where $[a,b]^{*}=\left[\begin{array}{c}
+ab\mapsto1\\
+bc\mapsto0\\
+ca\mapsto0
+\end{array}\right]$.
+\item Intuition: If you think of boundary operators as ``derivation'',
 then the coboundary operator is like ``anti-derivation''.
-\item Problem (Circular Coordinates): Given a cochain $f\in C^{k}(K)$,
-can we find a cohomologous cochain $z$ such that the norm (when the
-representative element function $f$ and $z$ is regarded as an $\mathbb{K}$-vector)
-$\|f-\delta z\|_{L^{2}}$ is minimized?
-\end{itemize}
-\end{frame}
+\item Theorem (Circular Coordinates): Given a $[f]\in H^{1}(K)$, $f$ can
+be made into a function $X\rightarrow S^{1}$. This \textbf{circular
+coordinate} can be found through the optimization problem $\min_{z\in C^{0}(X)}\|f-\delta z\|_{L^{2}}$.\\
 %
-\begin{frame}{Interpretation of Different Cost Functions}
+\end{itemize}
 \begin{itemize}
 \item Problem (New): How about we change the cost function $\|x\|_{L^{2}}\coloneqq(\sum_{i}x_{i}^{2})^{1/2}$
 into:

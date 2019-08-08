@@ -619,11 +619,11 @@ Another Example
 
 \end_layout
 
+\begin_deeper
 \begin_layout Itemize
 Matrix optimization using Gradient Descent with Jacobian.
 \end_layout
 
-\begin_deeper
 \begin_layout Itemize
 Example 2: Double Annulus.
 \begin_inset Newline newline
