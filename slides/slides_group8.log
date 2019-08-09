@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.21)  9 AUG 2019 09:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.21)  9 AUG 2019 10:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1001,48 +1001,40 @@ File: pasted2.png Graphic file (type png)
 <use pasted2.png>
 Package pdftex.def Info: pasted2.png  used on input line 105.
 (pdftex.def)             Requested size: 56.45993pt x 37.94107pt.
-<pasted4.png, id=131, 274.02374pt x 198.7425pt>
+<pasted4.png, id=131, 433.62pt x 289.08pt>
 File: pasted4.png Graphic file (type png)
 <use pasted4.png>
 Package pdftex.def Info: pasted4.png  used on input line 105.
-(pdftex.def)             Requested size: 54.80377pt x 39.74779pt.
-<pasted5.png, id=132, 280.04625pt x 198.7425pt>
-File: pasted5.png Graphic file (type png)
-<use pasted5.png>
-Package pdftex.def Info: pasted5.png  used on input line 105.
-(pdftex.def)             Requested size: 56.00824pt x 39.74779pt.
-<pasted6.png, id=133, 274.02374pt x 198.7425pt>
+(pdftex.def)             Requested size: 86.72246pt x 57.81497pt.
+<pasted6.png, id=133, 433.62pt x 289.08pt>
 File: pasted6.png Graphic file (type png)
 <use pasted6.png>
 Package pdftex.def Info: pasted6.png  used on input line 105.
-(pdftex.def)             Requested size: 54.80377pt x 39.74779pt.
-<pasted7.png, id=134, 280.04625pt x 198.7425pt>
-File: pasted7.png Graphic file (type png)
-<use pasted7.png>
-Package pdftex.def Info: pasted7.png  used on input line 105.
-(pdftex.def)             Requested size: 56.00824pt x 39.74779pt.
- [4
+(pdftex.def)             Requested size: 86.72246pt x 57.81497pt.
 
- <./pasted3.png (PNG copy)> <./pasted2.png (PNG copy)> <./pasted4.png (PNG copy
-)> <./pasted5.png (PNG copy)> <./pasted6.png (PNG copy)> <./pasted7.png (PNG co
-py)>]
-<pasted8.png, id=161, 281.55188pt x 189.70876pt>
+Overfull \vbox (6.67285pt too high) detected at line 105
+ []
+
+[4
+
+ <./pasted3.png (PNG copy)> <./pasted2.png (PNG copy)> <./pasted4.png> <./paste
+d6.png>]
+<pasted8.png, id=162, 281.55188pt x 189.70876pt>
 File: pasted8.png Graphic file (type png)
 <use pasted8.png>
 Package pdftex.def Info: pasted8.png  used on input line 117.
 (pdftex.def)             Requested size: 56.30937pt x 37.94107pt.
-<pasted9.png, id=162, 280.04625pt x 189.70876pt>
+<pasted9.png, id=163, 280.04625pt x 189.70876pt>
 File: pasted9.png Graphic file (type png)
 <use pasted9.png>
 Package pdftex.def Info: pasted9.png  used on input line 117.
 (pdftex.def)             Requested size: 56.00824pt x 37.94107pt.
-<pasted10.png, id=163, 266.49562pt x 198.7425pt>
+<pasted10.png, id=164, 266.49562pt x 198.7425pt>
 File: pasted10.png Graphic file (type png)
 <use pasted10.png>
 Package pdftex.def Info: pasted10.png  used on input line 117.
 (pdftex.def)             Requested size: 93.27486pt x 69.56091pt.
-
-[5
+ [5
 
  <./pasted8.png (PNG copy)> <./pasted9.png (PNG copy)> <./pasted10.png (PNG cop
 y)>]
@@ -1064,10 +1056,10 @@ Package rerunfilecheck Info: File `slides_group8.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 18468 strings out of 492982
- 348141 string characters out of 6134895
+ 18458 strings out of 492982
+ 347993 string characters out of 6134895
  430947 words of memory out of 5000000
- 21563 multiletter control sequences out of 15000+600000
+ 21555 multiletter control sequences out of 15000+600000
  81919 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,15n,58p,800b,593s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1086,10 +1078,10 @@ re/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/
 lm/lmsy7.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/share/texm
 f/fonts/type1/public/lm/lmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/amsfonts/symbols/msbm10.pfb>
-Output written on slides_group8.pdf (5 pages, 277713 bytes).
+Output written on slides_group8.pdf (5 pages, 259366 bytes).
 PDF statistics:
- 255 PDF objects out of 1000 (max. 8388607)
- 205 compressed objects within 3 object streams
+ 256 PDF objects out of 1000 (max. 8388607)
+ 206 compressed objects within 3 object streams
  11 named destinations out of 1000 (max. 500000)
- 130 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 120 words of extra memory for PDF output out of 10000 (max. 10000000)
 
