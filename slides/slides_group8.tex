@@ -39,12 +39,12 @@
 \makebeamertitle
 \begin{frame}{Problem Setup}
 \begin{itemize}
-\item We have a (simplicial) complex $K$ from the dataset $X$, we can
+\item Given a simplicial complex $K$ from the dataset $X$, we can
 consider the homology and cohomology with a fixed coefficient field
-$\mathbb{K}$.
+$\mathbb{k}$.
 \item Homology and boundary operator: $\partial:C_{k}(K)\rightarrow C_{k-1}(K)$.
 e.g. $\partial[a,b,c]=[a,b]+[b,c]+[c,a]$
-\item Cohomology and coboundary operator: $\delta:C^{k}(K)\rightarrow C^{k+1}$.
+\item Cohomology and coboundary operator: $\delta:C^{k}(K)\rightarrow C^{k+1}(K)$.
 e.g. $\delta\left[\begin{array}{c}
 a\mapsto1\\
 b\mapsto0\\
@@ -61,13 +61,13 @@ then the coboundary operator is like ``anti-derivation''.
 
 \begin{frame}
 \begin{itemize}
-\item Theorem (Circular Coordinates): Given a $[f]\in H^{1}(K)$, $f$ can
+\item Theorem (Circular Coordinates): Given an $[f]\in H^{1}(K)$, $f$ can
 be made into a function $X\rightarrow S^{1}$. This \textbf{circular
 coordinate} can be found through the optimization problem $\min_{z\in C^{0}(X)}\|f-\delta z\|_{L^{2}}$.\\
 %
 \end{itemize}
 \begin{itemize}
-\item Problem (New): How about we change the cost function $\|x\|_{L^{2}}\coloneqq(\sum_{i}x_{i}^{2})^{1/2}$
+\item Problem (New): Change the cost function $\|x\|_{L^{2}}\coloneqq(\sum_{i}x_{i}^{2})^{1/2}$
 into:
 \begin{itemize}
 \item $\|x\|_{L^{1}}\coloneqq(\sum_{i}|x_{i}|)$ L1-norm\\
@@ -78,7 +78,7 @@ It may find a balance between L1 and L2 norms.
 It may produces some other kind of smoothness.
 \item Localized penalty. Only take a penalty norm for some subvector of
 $x$.
-\item In addition, we can penalized not only $x=f-\delta z$ but also
+\item In addition, we can penalize not only $x=f-\delta z$ but also
 \begin{itemize}
 \item $x=\delta z$ (minimize edits?)
 \item $x=z$ or $x=z\text{ mod }1$ (smaller values for functions as $X\rightarrow S^{1}$?)
