@@ -61,7 +61,7 @@ then the coboundary operator is like ``anti-derivation''.
 
 \begin{frame}
 \begin{itemize}
-\item \textbf{Theorem} (\textit{Circular Coordinates}): Given a $[f]\in H^{1}(K)$, $f$ can
+\item \textbf{Theorem} (\textit{Circular Coordinates}): Given a $[f]\in H^{1}(\mathbb{Z})$, $f$ can
 be made into a function $X\rightarrow S^{1}$. This \textbf{circular
 coordinate} can be found through the optimization problem $\min_{z\in C^{0}(X)}\|f-\delta z\|_{L^{2}}$.\\
 %
@@ -124,5 +124,21 @@ coordinate} can be found through the optimization problem $\min_{z\in C^{0}(X)}\
 \end{itemize}
 \end{itemize}
 \end{frame}
+
+\begin{frame}{Another Example}
+\begin{itemize}
+	\item Matrix optimization using Gradient Descent with Jacobian.
+	\item Example 3: Annulus with thin and thick parts.\\
+	\includegraphics[scale=0.2]{thin_anulus_barcode}\includegraphics[scale=0.2]{thin_anulus_data}
+\begin{itemize}
+	\item L2 norm ($x=f-\delta z$ and $x=z\text{ mod }1$)\\
+	\includegraphics[scale=0.2]{pasted4}
+	\item L1 norm ($x=f-\delta z$ and $x=z\text{ mod }1$)\\
+	\includegraphics[scale=0.2]{pasted6}\\
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+
 
 \end{document}
