@@ -1,6 +1,7 @@
 from numpy import r_
 from math import sin, cos, pi
 from random import uniform
+import numpy as np
 
 def annulus_example(R= 1.5, d= .5, n= 100):
     '''
@@ -70,8 +71,8 @@ def annulus2_example(R= 1.5, d= .5, n= 100):
         r = uniform(0,1)
         th = uniform(0,2*pi)
         return (R+r*d) * cos(th), (R+r*d) * sin(th)
-    return r_[np.array([(rand_annulus_pt()) for x in range(n/2)]) + [[-R,0]],
-             np.array([(rand_annulus_pt()) for x in range(n/2)]) + [[R,0]]]
+    return r_[np.array([(rand_annulus_pt()) for x in range(n//2)]) + [[-R,0]],
+             np.array([(rand_annulus_pt()) for x in range(n//2)]) + [[R,0]]]
 
 def annulus_bar_example(R= 1.5, d= .5, n= 100):
     '''
@@ -100,6 +101,6 @@ def annulus_bar_example(R= 1.5, d= .5, n= 100):
         yy = uniform(-R, R)
         return xx, yy
 
-    return r_[np.array([(rand_annulus_pt()) for x in range(n*2/3)]), 
-                 np.array([(vert_bar_pt()) for x in range(n-(n*2/3))])]
+    return r_[np.array([(rand_annulus_pt()) for x in range(2*n//3)]), 
+                 np.array([(vert_bar_pt()) for x in range(n//3)])]
     
