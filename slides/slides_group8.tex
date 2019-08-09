@@ -103,42 +103,29 @@ coordinate} can be found through the optimization problem $\min_{z\in C^{0}(X)}\
 %
 \begin{frame}{Optimization Problem: Gradient Descent}
 \begin{itemize}
-\item Example 1: Annulus.\\
-\includegraphics[scale=0.2]{pasted3}\includegraphics[scale=0.2]{pasted2}
-\begin{itemize}
-\item L2 norm ($x=f-\delta z$ and $x=z\text{ mod }1$)\\
-\includegraphics[scale=0.2]{pasted4}
-\item L1 norm ($x=f-\delta z$ and $x=z\text{ mod }1$)\\
-\includegraphics[scale=0.2]{pasted6}\\
-\end{itemize}
+\item Example 1: Annulus, L2 norm ($\|f-\delta z\|_{2}$) and L1 norm ($\|f-\delta z\|_{1}$)\\
+\begin{center}
+\includegraphics[scale=0.33]{pasted4} \includegraphics[scale=0.33]{pasted6}\\
+\end{center}
 \end{itemize}
 \end{frame}
 %
 \begin{frame}{Another Example}
 \begin{itemize}
-\item Example 2: Double Annulus.\\
-\includegraphics[scale=0.2]{pasted8}\includegraphics[scale=0.2]{pasted9}
-\begin{itemize}
-\item Mixed L2 norm ($(1-\lambda)\|f-\delta z\|_{L^{2}}+\lambda\|f-\delta z\|_{L^{1}}$) with $\lambda\in[0,1]$.\\
-\includegraphics[scale=0.35]{pasted10}
-\end{itemize}
+	\item Example 2: Annulus with thin and thick parts, L2 norm ($\|f-\delta z\|_{2}$) and L1 norm ($\|f-\delta z\|_{1}$)\\
+	\begin{center}
+		\includegraphics[scale=0.5]{thin_anulus_l2}\includegraphics[scale=0.5]{thin_anulus_l1}\\
+	\end{center}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Another Example}
 \begin{itemize}
-	\item Matrix optimization using Gradient Descent with Jacobian.
-	\item Example 3: Annulus with thin and thick parts.\\
-	\includegraphics[scale=0.2]{thin_anulus_barcode}\includegraphics[scale=0.2]{thin_anulus_data}
-\begin{itemize}
-	\item L2 norm ($x=f-\delta z$ and $x=z\text{ mod }1$)\\
-	\includegraphics[scale=0.2]{pasted4}
-	\item L1 norm ($x=f-\delta z$ and $x=z\text{ mod }1$)\\
-	\includegraphics[scale=0.2]{pasted6}\\
-\end{itemize}
-
+\item Example 3: Double Annulus, mixed L2 and L1 norm ($(1-\lambda)\|f-\delta z\|_{L^{2}}+\lambda\|f-\delta z\|_{L^{1}}$) with $\lambda\in[0,1]$.\\
+\begin{center}
+\includegraphics[scale=0.66]{pasted10}
+\end{center}
 \end{itemize}
 \end{frame}
-
 
 \end{document}
