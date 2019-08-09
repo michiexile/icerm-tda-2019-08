@@ -25,7 +25,7 @@ costfunc1p = @(x)costfunc1(x)+lambda*costfuncp(x);
 %minimizer, fast bu tinaccurate.
 
 %options = optimoptions('fminunc','Algorithm','trust-region','SpecifyObjectiveGradient',true);
-options = optimoptions(@fminunc,'Display','iter','Algorithm','quasi-newton','MaxIterations',10);
+options = optimoptions(@fminunc,'Display','iter','Algorithm','quasi-newton','MaxIterations',20);
 
 %x0 = [-1,2];
 %fun = @costwithgrad;
@@ -36,3 +36,7 @@ z_min = fminunc(costfunc12,z0,options)
 %Show the minimum and the argmin.
 z_min
 costf_min = costfunc12(z_min)
+
+%Display the function values.
+scatter(point_cloud(:,3), point_cloud(:,4), '.')
+axis equal
