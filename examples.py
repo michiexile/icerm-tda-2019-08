@@ -104,3 +104,42 @@ def annulus_bar_example(R= 1.5, d= .5, n= 100):
     return r_[np.array([(rand_annulus_pt()) for x in range(2*n//3)]), 
                  np.array([(vert_bar_pt()) for x in range(n//3)])]
     
+def lorenz_example():
+    '''
+    TO DO: need to add number of points or something of the sort
+    '''
+    def f(state, t):
+    (x,y,z) = state
+    return (sigma*(y-x), x*(rho-z)-y, x*y-beta*z)
+
+    ts = arange(0,40,0.025)
+    states = scipy.integrate.odeint(f, (1.,1.,1.), ts)
+    return states[-800:,:]
+
+def torus_example(R1= 1, R2= .3, n= 100):
+    '''
+    R1 #donut hole
+    R2 #thickness
+    n # number of points
+    '''
+    def rand_torus_pt():
+        th = uniform(0,2*pi)
+        ph = uniform(0,2*pi)
+        return (R1+R2*cos(th))*cos(ph), (R1+R2*cos(th))*sin(ph),R2*sin(th)
+    return np.array([(rand_torus_pt()) for x in range(n)])
+
+# def double_torus_example():
+    
+#     return
+
+# def klein_bottle_example():
+    
+#     return
+
+# def figure8_example():
+    
+#     return
+
+# def pinched_torus_example():
+    
+#     return
