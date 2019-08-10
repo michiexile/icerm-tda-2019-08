@@ -1,4 +1,5 @@
 import numpy as np
+from numpy import *
 
 def cost_interpolate(Z, L, F, B):
     '''
@@ -40,3 +41,17 @@ def grad_2norm(Z, F, B):
     '''
     dz = B*Z.reshape(B.shape[1],1)
     return np.array(2 * B.T * (dz - F)).flatten()
+
+def lpnorm(Z, ord=2):
+    return float_power(float_power(Z, ord).sum(), 1/ord)
+
+def cost_Lpnorm_mvj(Z, F, B, p=2, alpha=0, q=2):
+    return lpnorm(array(F + B @ Z.reshape(-1,1)), ord=p) + \
+        alpha*lpnorm(array(F + B @ Z.reshape(-1,1)), ord=q)
+
+def grad_Lpnorm_mvj(Z, F, B, p=2, alpha=0, q=2):
+    def fbzlpgrad(fbz, z, p):
+        return float_power(lpnorm(array(fbz), p), 1-p) * ( ( float_power(abs(fbz), p-1).ravel() @ (B@diag(sign(z)))))
+    bz = B @ Z.reshape(-1,1)
+    fbz = F - bz
+    return array(fbzlpgrad(fbz, Z, p) + alpha * fbzlpgrad(fbz, Z, q)).ravel()
