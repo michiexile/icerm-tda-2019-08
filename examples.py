@@ -128,18 +128,98 @@ def torus_example(R1= 1, R2= .3, n= 100):
         return (R1+R2*cos(th))*cos(ph), (R1+R2*cos(th))*sin(ph),R2*sin(th)
     return np.array([(rand_torus_pt()) for x in range(n)])
 
-# def double_torus_example():
-    
-#     return
+def pinched_torus_example(R= 1.5, n= 100):
+    '''
+    Creates a point cloud in R^3 of randomly sampled points from an
+    piched torus with radius R.
+    Parameters
+    ----------
+    R: float() - radius of the annulus
+    n: int() - number of points
+    Output
+    ------
+    np.array of dimensions (n,3)
+    '''
+    def rand_S1_pt():
+        #https://en.wikipedia.org/wiki/Pinched_torus
+        x = uniform(0,2*pi)
+        y = uniform(0,2*pi)
+        g_xy = 2 + sin(x/2)*cos(y)
+        return R*g_xy*cos(x), R*g_xy*sin(x), R*sin(x/2)*sin(y)
+    return np.array([(rand_S1_pt()) for x in range(n)])
 
-# def klein_bottle_example():
-    
-#     return
 
-# def figure8_example():
-    
-#     return
+def double_pinched_torus_example(R= 1.5, n= 100, a=.5, b=.5, c=0, d=0):
+    '''
+    Creates a point cloud in R^3 of randomly sampled points from an
+    piched torus with radius R.
+    Parameters
+    ----------
+    R: float() - radius of the annulus
+    n: int() - number of points
+    Output
+    ------
+    np.array of dimensions (n,3)
+    '''
+    def rand_S1_pt(a=a,b=b,c=c,d=d):
+        #https://demonstrations.wolfram.com/DupinCyclides/
+        #https://en.wikipedia.org/wiki/Dupin_cyclide
+        u = uniform(-pi,pi)#phi
+        v = uniform(-pi,pi)#psi
+        #if c*c!=(a*a-b*b):
+        #   print('ERROR in parameters')
+     
+        X_coord = d*(c-a*cos(u)*cos(v))+b*b*cos(u)
+        X_coord = X_coord/(c-a*cos(u)*cos(v))
 
-# def pinched_torus_example():
+        Y_coord = b*sin(u)*(a-d*cos(v))
+        Y_coord = Y_coord/(c-a*cos(u)*cos(v))
+
+        Z_coord = b*sin(v)*(c*cos(u)-d)
+        Z_coord = Z_coord/(c-a*cos(u)*cos(v))
     
-#     return
+        return X_coord, Y_coord, Z_coord
+    return np.array([(rand_S1_pt()) for x in range(n)])
+
+
+def klein_bottle_example_4D(R=0.9, P=1.2, epsilon=0.01, n= 100):
+    '''
+    Creates a point cloud in R^4 of randomly sampled points from an
+    Kelin bottle with radius R/P and epsilon bumped in R^4.
+    Parameters
+    ----------
+    R: float() - radius (aspect ratio 1) of the immersed torus
+    P: float() - radius (aspect ratio 2) of the immersed torus
+    epsilon: float() - small bumping parameter
+    n: int() - number of points
+    Output
+    ------
+    np.array of dimensions (n,4)
+    '''
+    def rand_TR_pt():
+        #https://en.wikipedia.org/wiki/Klein_bottle
+        theta = uniform(0,2*pi)
+        v = uniform(0,2*pi)
+        return R*( cos(theta/2)*cos(v)-sin(theta/2)*sin(2*v) ) , R*( sin(theta/2)*cos(v)+cos(theta/2)*sin(2*v) ), P*cos(theta)*( 1+epsilon*sin(v) ), P*sin(theta)*( 1+epsilon*sin(v) )
+    return np.array([(rand_TR_pt()) for x in range(n)])
+
+def klein_bottle_example_Fig8(r=2.1, n= 100):
+    if r <= 2:
+        raise Exception('r should >2.')
+    '''
+    Creates a point cloud in R^3 of randomly sampled points from an
+    Kelin bottle with radius r and immersed like a figure 8 in R^3.
+    Parameters
+    ----------
+    r: float() - radius of the immersed 8.
+    n: int() - number of points
+    Output
+    ------
+    np.array of dimensions (n,3)
+    '''
+    def rand_F8_pt():
+        #https://en.wikipedia.org/wiki/Klein_bottle
+        theta = uniform(0,2*pi)
+        v = uniform(0,2*pi)
+        return ( r + cos(theta/2)*sin(v)-sin(theta/2)*sin(2*v) )*cos(theta), ( r + cos(theta/2)*sin(v)-sin(theta/2)*sin(2*v) )*sin(theta), sin(theta/2)*sin(v)+cos(theta/2)*sin(2*v)
+    return np.array([(rand_F8_pt()) for x in range(n)])
