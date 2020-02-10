@@ -63,10 +63,7 @@ def grad_Lpnorm_mvj(Z, F, B, p=2, alpha=0, q=2):
         fbz=fbz.reshape(-1,1)
         tmp_scalar=float_power(abs(fbz), p-1).ravel()
         tmp_scalar=tmp_scalar.reshape(-1,1)
-        #print tmp_scalar.shape
-        #print B.shape
-        #print diag(sign(z)).shape
-        return float_power(lpnorm(fbz, p), 1-p) * ( ( tmp_scalar * (B*diag(sign(z)))))
+        return float_power(lpnorm(fbz, p), 1-p) * ( (dot(tmp_scalar.T, (B*diag(sign(z))))))
     bz = B * Z.reshape(-1,1)
     fbz = F - bz
     fbzlpgrad_tmp1 = fbzlpgrad(fbz, Z, p)
