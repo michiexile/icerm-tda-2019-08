@@ -3,40 +3,65 @@ from math import sin, cos, pi
 from random import uniform
 import numpy as np
 
-def annulus_example(R= 1.5, d= .5, n= 100):
+def annulus_example(R= 1.5, d= .5, n= 100, Jacobian=False):
     '''
-    Creates a point cloud in R^2 of randomly sampled points from an 
+    Creates a point cloud in R^2 of randomly sampled points from an
     annulus with inner radius R and outer radius R+d.
-    
+
     Parameters
     ----------
     R: float() - inner radius of the annulus
     d: float() - thickness of the annulus
     n: int() - number of points
-    
-    
+
+
     Output
     ------
     np.array of dimensions (n,2)
     '''
-    def rand_annulus_pt():
-        r = uniform(0,1)
-        th = uniform(0,2*pi)
-        return (R+r*d) * cos(th), (R+r*d) * sin(th)
-    return np.array([(rand_annulus_pt()) for x in range(n)])
+    if Jacobian==False:
+        def rand_annulus_pt():
+            r = uniform(0,1)
+            th = uniform(0,2*pi)
+            return (R+r*d) * cos(th), (R+r*d) * sin(th)
+        return np.array([(rand_annulus_pt()) for x in range(n)])
+    if Jacobian == True:
+        #When Jacobian is set to be True, we need to provide Jacobian of this parameterization and the maximal possible Jacobian.
+        Jacobian_max=2*pi
+        def Jacobian_fun(r,theta):
+            '''
+            (  (R+r*d) * cos(th) , (R+r*d) * sin(th)  )
+                |   d*cos(th)      d*sin(th)|
+            det |                           |=r*d*d
+                |-r*d*sin(th)   r*d*cos(th) |
+            '''
+            return (r*d*d)
+        def rand_annulus_ptJ():
+            rejection=uniform(0,Jacobian_max)
+            r = uniform(0,1)
+            th = uniform(0,2*pi)
+            Jacobian_tmp= Jacobian_fun(r,th)
+            while rejection>Jacobian_tmp:
+                #print('rejec')
+                rejection=uniform(0,Jacobian_max)
+                r = uniform(0,1)
+                th = uniform(0,2*pi)
+                Jacobian_tmp= Jacobian_fun(r,th)
+            return (R+r*d) * cos(th), (R+r*d) * sin(th)
+        return np.array([(rand_annulus_ptJ()) for x in range(n)])
 
 def annulus_variable_d_example(R= 1.5, d= .5, n= 100):
     '''
-    Creates a point cloud in R^2 of randomly sampled points from an 
+    Creates a point cloud in R^2 of randomly sampled points from an
     annulus with inner radius R and outer radius between (R+d, R).
-    
+
     Parameters
     ----------
     R: float() - inner radius of the annulus
     d: float() - thickness of the annulus
     n: int() - number of points
-    
-    
+
+
     Output
     ------
     np.array of dimensions (n,2)
@@ -51,41 +76,37 @@ def annulus_variable_d_example(R= 1.5, d= .5, n= 100):
             idx = idx + 1
     return annulus
 
-def annulus2_example(R= 1.5, d= .5, n= 100):
+def annulus2_example(R= 1.5, d= .5, n= 100,Jacobian=False):
     '''
-    Creates a point cloud in R^2 of randomly sampled points from two overlapping 
+    Creates a point cloud in R^2 of randomly sampled points from two overlapping
     annuli with inner radius R and outer radius R+d.
-    
+
     Parameters
     ----------
     R: float() - inner radius of the annulus
     d: float() - thickness of the annulus
     n: int() - number of points
-    
-    
+
+
     Output
     ------
     np.array of dimensions (n,2)
     '''
-    def rand_annulus_pt():
-        r = uniform(0,1)
-        th = uniform(0,2*pi)
-        return (R+r*d) * cos(th), (R+r*d) * sin(th)
-    return r_[np.array([(rand_annulus_pt()) for x in range(n//2)]) + [[-R,0]],
-             np.array([(rand_annulus_pt()) for x in range(n//2)]) + [[R,0]]]
+    return np.r_[ np.array(annulus_example(R=R,d=d,n=n//2,Jacobian=Jacobian) )+ [[-R,0]],
+                  np.array(annulus_example(R=R,d=d,n=n//2,Jacobian=Jacobian) )+ [[ R,0]] ]
 
 def annulus_bar_example(R= 1.5, d= .5, n= 100):
     '''
-    Creates a point cloud in R^2 of randomly sampled points from an 
+    Creates a point cloud in R^2 of randomly sampled points from an
     annulus with inner radius R and outer radius R+d with an bar of thickness d cutting it in half.
-    
+
     Parameters
     ----------
     R: float() - inner radius of the annulus
     d: float() - thickness of the annulus
     n: int() - number of points
-    
-    
+
+
     Output
     ------
     np.array of dimensions (n,2)
@@ -101,16 +122,16 @@ def annulus_bar_example(R= 1.5, d= .5, n= 100):
         yy = uniform(-R, R)
         return xx, yy
 
-    return r_[np.array([(rand_annulus_pt()) for x in range(2*n//3)]), 
+    return r_[np.array([(rand_annulus_pt()) for x in range(2*n//3)]),
                  np.array([(vert_bar_pt()) for x in range(n//3)])]
-    
+
 def lorenz_example():
     '''
     TO DO: need to add number of points or something of the sort
     '''
     def f(state, t):
         (x,y,z) = state
-    return (sigma*(y-x), x*(rho-z)-y, x*y-beta*z)
+        return (sigma*(y-x), x*(rho-z)-y, x*y-beta*z)
 
     ts = arange(0,40,0.025)
     states = scipy.integrate.odeint(f, (1.,1.,1.), ts)
@@ -128,7 +149,7 @@ def torus_example(R1= 1, R2= .3, n= 100):
         return (R1+R2*cos(th))*cos(ph), (R1+R2*cos(th))*sin(ph),R2*sin(th)
     return np.array([(rand_torus_pt()) for x in range(n)])
 
-def pinched_torus_example(R= 1.5, n= 100):
+def pinched_torus_example(R= 1.5, n= 100, Jacobian=False):
     '''
     Creates a point cloud in R^3 of randomly sampled points from an
     piched torus with radius R.
@@ -140,6 +161,7 @@ def pinched_torus_example(R= 1.5, n= 100):
     ------
     np.array of dimensions (n,3)
     '''
+
     def rand_S1_pt():
         #https://en.wikipedia.org/wiki/Pinched_torus
         x = uniform(0,2*pi)
@@ -168,7 +190,7 @@ def double_pinched_torus_example(R= 1.5, n= 100, a=.5, b=.5, c=0, d=0):
         v = uniform(-pi,pi)#psi
         #if c*c!=(a*a-b*b):
         #   print('ERROR in parameters')
-     
+
         X_coord = d*(c-a*cos(u)*cos(v))+b*b*cos(u)
         X_coord = X_coord/(c-a*cos(u)*cos(v))
 
@@ -177,7 +199,7 @@ def double_pinched_torus_example(R= 1.5, n= 100, a=.5, b=.5, c=0, d=0):
 
         Z_coord = b*sin(v)*(c*cos(u)-d)
         Z_coord = Z_coord/(c-a*cos(u)*cos(v))
-    
+
         return X_coord, Y_coord, Z_coord
     return np.array([(rand_S1_pt()) for x in range(n)])
 
