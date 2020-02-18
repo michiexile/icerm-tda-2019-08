@@ -25,34 +25,6 @@ def annulus_example(R= 1.5, d= .5, n= 100):
         return (R+r*d) * cos(th), (R+r*d) * sin(th)
     return np.array([(rand_annulus_pt()) for x in range(n)])
 
-def annulus_example_AP(R= 1.5, d= .5, n= 100):
-    '''
-    Creates a point cloud in R^2 of randomly sampled points from an 
-    annulus with inner radius R and outer radius R+d. Area-preserveing sampling
-    
-    Parameters
-    ----------
-    R: float() - inner radius of the annulus
-    d: float() - thickness of the annulus
-    n: int() - number of points
-    
-    
-    Output
-    ------
-    np.array of dimensions (n,2)
-    '''
-    def psi(z1,z2):
-        den = d*(2*R+d)
-        num = -R+sqrt(den*z1+R**2)
-        return num/den,z2
-    
-    def rand_annulus_pt():
-        r = uniform(0,1)
-        th = uniform(0,1)
-        r, th = psi(r,th)
-        return (R+r*d) * cos(th*2*pi), (R+r*d) * sin(th*2*pi)
-    return np.array([(rand_annulus_pt()) for x in range(n)])
-
 def annulus_variable_d_example(R= 1.5, d= .5, n= 100):
     '''
     Creates a point cloud in R^2 of randomly sampled points from an 
@@ -251,3 +223,36 @@ def klein_bottle_example_Fig8(r=2.1, n= 100):
         v = uniform(0,2*pi)
         return ( r + cos(theta/2)*sin(v)-sin(theta/2)*sin(2*v) )*cos(theta), ( r + cos(theta/2)*sin(v)-sin(theta/2)*sin(2*v) )*sin(theta), sin(theta/2)*sin(v)+cos(theta/2)*sin(2*v)
     return np.array([(rand_F8_pt()) for x in range(n)])
+
+#--------------------------------------------------------------------
+#-------------Trying Area Preserving sampling
+#--------------------------------------------------------------------
+
+def annulus_example_AP(R= 1.5, d= .5, n= 100):
+    '''
+    Creates a point cloud in R^2 of randomly sampled points from an 
+    annulus with inner radius R and outer radius R+d. Area-preserveing sampling
+    
+    Parameters
+    ----------
+    R: float() - inner radius of the annulus
+    d: float() - thickness of the annulus
+    n: int() - number of points
+    
+    
+    Output
+    ------
+    np.array of dimensions (n,2)
+    '''
+    def psi(z1,z2):
+        den = d*(2*R+d)
+        num = -R+sqrt(den*z1+R**2)
+        return num/den,z2
+    
+    def rand_annulus_pt():
+        r = uniform(0,1)
+        th = uniform(0,1)
+        r, th = psi(r,th)
+        return (R+r*d) * cos(th*2*pi), (R+r*d) * sin(th*2*pi)
+    return np.array([(rand_annulus_pt()) for x in range(n)])
+
