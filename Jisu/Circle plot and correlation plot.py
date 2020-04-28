@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Circular coordinates as a dimension reduction
+# # Circle plot and correlation plot
 # 
 # The low-dimensional coordinate mappings by the circular
 # coordinate is not only used as a visual representation, but also can
@@ -58,90 +58,38 @@ from mpl_toolkits.mplot3d import Axes3D
 # which is a uniform $180$ samples on a loop that wraps around the
 # cube $[-1,1]^{3}$.
 
-# In[2]:
+# In[11]:
 
 
-def cubeLoop(m):
-    X01 = np.zeros((m, 3))
-    X01[:,0] = 1
-    X01[:,2] = np.array([uniform(0,1) for x in range(m)])
+m = 25
+n = m * 2
+random.seed(0)
 
-    X02 = np.zeros((m, 3))
-    X02[:,2] = 1
-    X02[:,0] = np.array([uniform(0,1) for x in range(m)])
-
-    X03 = np.zeros((m, 3))
-    X03[:,2] = 1
-    X03[:,1] = np.array([uniform(0,1) for x in range(m)])
-
-    X04 = np.zeros((m, 3))
-    X04[:,1] = 1
-    X04[:,2] = np.array([uniform(0,1) for x in range(m)])
-
-    X05 = np.zeros((m, 3))
-    X05[:,1] = 1
-    X05[:,0] = - np.array([uniform(0,1) for x in range(m)])
-
-    X06 = np.zeros((m, 3))
-    X06[:,0] = -1
-    X06[:,1] = np.array([uniform(0,1) for x in range(m)])
-
-    X07 = np.zeros((m, 3))
-    X07[:,0] = -1
-    X07[:,2] = - np.array([uniform(0,1) for x in range(m)])
-
-    X08 = np.zeros((m, 3))
-    X08[:,2] = -1
-    X08[:,0] = - np.array([uniform(0,1) for x in range(m)])
-
-    X09 = np.zeros((m, 3))
-    X09[:,2] = -1
-    X09[:,1] = - np.array([uniform(0,1) for x in range(m)])
-
-    X10 = np.zeros((m, 3))
-    X10[:,1] = -1
-    X10[:,2] = - np.array([uniform(0,1) for x in range(m)])
-
-    X11 = np.zeros((m, 3))
-    X11[:,1] = -1
-    X11[:,0] = np.array([uniform(0,1) for x in range(m)])
-
-    X12 = np.zeros((m, 3))
-    X12[:,0] = 1
-    X12[:,1] = - np.array([uniform(0,1) for x in range(m)])
-
-    return(np.vstack((X01, X02, X03, X04, X05, X06, X07, X08, X09, X10, X11, X12)))
+X = np.zeros((n, 2))
+T = np.array([uniform(0,1) for x in range(m)])
+X[0:m, 0] = cos(2 * pi * T) - 1
+X[0:m, 1] = sin(2 * pi * T)
+T = np.array([uniform(0,1) for x in range(m)])
+X[m:(2*m), 0] = cos(2 * pi * T) + 1
+X[m:(2*m), 1] = sin(2 * pi * T)
 
 
 # In[3]:
 
 
-m = 5
-n = 24 * m
-random.seed(0)
-
-X1 = cubeLoop(m)
-X1[:, 0] = X1[:, 0] - 1
-X1[:, 1] = X1[:, 1] + 1
-X2 = cubeLoop(m)
-X2[:, 0] = X2[:, 0] + 1
-X2[:, 1] = X2[:, 1] - 1
-X = np.vstack((X1, X2))
+X
 
 
-# In[4]:
+# In[12]:
 
 
-with PdfPages('fig_cc-pca_dataset_scatter.pdf') as pdf:
+with PdfPages('fig_cp-cp_dataset_scatter.pdf') as pdf:
     fig = plt.figure(figsize=(4,4), dpi=100)
     plt.xlabel('X')
     plt.ylabel('Y')
     plt.gca().set_aspect('equal', 'datalim')
-    ax = fig.add_subplot(111, projection='3d')
-    ax.set_xlim([-2,2])
-    ax.set_ylim([-2,2])
-    ax.set_zlim([-2,2])
-    ax.scatter(xs = X[:,0], ys = X[:,1], zs = X[:,2], s=10, c = 'b')
+    plt.scatter(X[:, 0], X[:, 1], s=10, c='b')
+    plt.axis('equal')
     plt.title('Scatter plot of data points')
     pdf.savefig(fig)
 
@@ -149,7 +97,7 @@ with PdfPages('fig_cc-pca_dataset_scatter.pdf') as pdf:
 # The persistent cohomology of $X$ is in the plot. As expected from the dataset, the $1$-dimensional persistent cohomology
 # of $X$ has one prominent topological feature.
 
-# In[5]:
+# In[13]:
 
 
 prime = 23 #choose the prime base for the coefficient field that we use to construct the persistence cohomology.
@@ -158,10 +106,10 @@ cp = dionysus.cohomology_persistence(vr, prime, True) #Create the persistent coh
 dgms = dionysus.init_diagrams(cp, vr) #Calculate the persistent diagram using␣ the designated coefficient field and complex.
 
 
-# In[6]:
+# In[14]:
 
 
-with PdfPages('fig_cc-pca_dataset_ph.pdf') as pdf:
+with PdfPages('fig_cp-cp_dataset_ph.pdf') as pdf:
     fig = plt.figure(figsize=(4,4), dpi=100)
     plt.xlim([0, 2])
     plt.yticks([])
@@ -177,7 +125,7 @@ with PdfPages('fig_cc-pca_dataset_ph.pdf') as pdf:
 # Then, we compute the circular coordinates from the longest cohomological feature in the persistent
 # cohomology.
 
-# In[7]:
+# In[15]:
 
 
 threshold = 0.5
@@ -187,7 +135,7 @@ cocycles = [cp.cocycle(bar.data) for bar in bars]
 #chosen_bar= bars[0]
 
 
-# In[8]:
+# In[16]:
 
 
 #Red highlight cocyles that persist more than threshold value on barcode, when more than one cocyles have persisted over threshold values, this plots the first one.
@@ -238,7 +186,7 @@ from Python_code import utils
 lp=1
 lq=2
 toll = 1e-4#tolerance for constant edges.
-alphas = [0,0.5,1]
+alphas = [1]
 color = np.zeros((X.shape[0], len(cocycles), len(alphas)), dtype = float)
 alphaIdx = 0
 colIdx = 0
@@ -287,33 +235,6 @@ for alpha in alphas:
 	alphaIdx = alphaIdx + 1
 
 
-# In[ ]:
-
-
-alphaIdx = 0
-colIdx = 0
-for alpha in alphas:
-	for g in range(len(cocycles)):
-		fig = plt.figure(figsize=(4,4), dpi=100)
-		ax = fig.add_subplot(111, projection='3d')	
-		ax.set_xlim([-1,1])
-		ax.set_ylim([-1,1])
-		ax.set_zlim([-1,1])
-		surf = ax.scatter(xs = X[:,0], ys = X[:,1], zs = X[:,2], s=10, c = color[:, colIdx, alphaIdx], cmap="hsv",zorder=10, vmin = 0, vmax = 1)
-		fig.colorbar(surf, shrink=1, aspect=5)
-		#plt.scatter(dataset.T[0,:],dataset.T[1,:],s=10, c=color, cmap="hsv",zorder=10)
-		##scatter(*annulus.T, c= color, cmap="hsv")
-		#plt.clim(0,1)
-		#plt.colorbar()
-		#plt.axis('equal')
-		plt.title('Circular coordinates, \n {}-th cocyle (mod {} - {}*L{} + {}*L{})'.format(g+1,prime,1-alpha,lp,alpha,lq))
-		#plt.show()
-		#toll = 1e-3
-		colIdx = colIdx + 1
-	colIdx = 0
-	alphaIdx = alphaIdx + 1
-
-
 # # Circular coordinates representation and its persistent cohomology
 # For the circular coordinates representation, we let
 # $\theta:X\to S^{1}\subset\mathbb{R}^{2}$ to be the circular coordinate
@@ -337,41 +258,26 @@ for alphaIdx in range(color.shape[2]):
     colIdx = 0
     alphaIdx = alphaIdx + 1
 
-with PdfPages('fig_cc-pca_cc_scatter_general.pdf') as pdf:    
-    alphaIdx = 0
-    colIdx = 0
-    for alpha in alphas:
-        for g in range(len(cocycles)):  
-            fig = plt.figure(figsize=(4,4), dpi=100)
-            plt.xlabel('X')
-            plt.ylabel('Y')
-            plt.gca().set_aspect('equal', 'datalim')
-            plt.scatter(X_cc[:, 2 * colIdx, alphaIdx], X_cc[:, 2 * colIdx + 1, alphaIdx], s=10, c='b')
-            plt.axis('equal')
-            plt.title('Scatter plot of Circular coordinates \n({}*L{} + {}*L{})'.format(1-alpha,lp,alpha,lq))
-            pdf.savefig(fig)
-            colIdx = colIdx + 1
-        colIdx = 0
-        alphaIdx = alphaIdx + 1
-
-with PdfPages('fig_cc-pca_cc_scatter.pdf') as pdf:    
-    fig = plt.figure(figsize=(4,4), dpi=100)
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    plt.gca().set_aspect('equal', 'datalim')
-    plt.scatter(X_cc[:, 0, 2], X_cc[:, 1, 2], s=10, c='b')
-    plt.axis('equal')
-    plt.title('Scatter plot of Circular coordinates (L2)')
-    pdf.savefig(fig)
+with PdfPages('fig_cp-cp_cc_scatter.pdf') as pdf:
+    for coIdx in range(color.shape[1]):
+        fig = plt.figure(figsize=(4,4), dpi=100)
+        plt.xlabel('X')
+        plt.ylabel('Y')
+        plt.gca().set_aspect('equal', 'datalim')
+        plt.scatter(X_cc[:, 2 * colIdx, 0], X_cc[:, 2 * colIdx + 1, 0], s=10, c='b')
+        plt.axis('equal')
+        plt.title('Scatter plot of one circular coordinate')
+        pdf.savefig(fig)
+        colIdx = colIdx + 1
         
-with PdfPages('fig_cc-pca_cc_correlation.pdf') as pdf:    
+with PdfPages('fig_cp-cp_cc_correlation.pdf') as pdf:    
     fig = plt.figure(figsize=(4,4), dpi=100)
     plt.xlabel('X')
     plt.ylabel('Y')
     plt.gca().set_aspect('equal', 'datalim')
-    plt.scatter(color[:, 0, 2], color[:, 1, 2], s=10, c='b')
+    plt.scatter(color[:, 0, 0], color[:, 1, 0], s=10, c='b')
     plt.axis('equal')
-    plt.title('Correlation plot of Circular coordinates (L2)')
+    plt.title('Correlation plot of two circular coordinates')
     pdf.savefig(fig)
 
 
@@ -384,27 +290,9 @@ with PdfPages('fig_cc-pca_cc_correlation.pdf') as pdf:
 # In[ ]:
 
 
-with PdfPages('fig_cc-pca_cc_ph_general.pdf') as pdf:
+with PdfPages('fig_cp-cp_cc_ph.pdf') as pdf:
     prime = 23 #choose the prime base for the coefficient field that we use to construct the persistence cohomology.
-    alphaIdx = 0
-    for alpha in alphas:
-        vr_cc = dionysus.fill_rips(X_cc[:,:,alphaIdx], 2, 2.) #Vietoris-Rips complex
-        cp_cc = dionysus.cohomology_persistence(vr_cc, prime, True) #Create the persistent cohomology based on the chosen parameters.
-        dgms_cc = dionysus.init_diagrams(cp_cc, vr_cc) #Calculate the persistent diagram using␣ the designated coefficient field and complex.
-        fig = plt.figure(figsize=(4,4), dpi=100)
-        plt.xlim([0, 2])
-        plt.yticks([])
-        plt.title('Barcode(dim 1) of Circular coordinates \n({}*L{} + {}*L{})'.format(1-alpha,lp,alpha,lq))
-        dionysus.plot.plot_bars(dgms_cc[1], show=True)
-        #dionysus.plot.plot_diagram(dgms_cc[1], show=True)
-        #dionysus.plot.plot_diagram(dgms[0], show=True)
-        #Plot the barcode and diagrams using matplotlib incarnation within Dionysus2. This mechanism is different in Dionysus.
-        pdf.savefig(fig)
-        alphaIdx = alphaIdx + 1
-            
-with PdfPages('fig_cc-pca_cc_ph.pdf') as pdf:
-    prime = 23 #choose the prime base for the coefficient field that we use to construct the persistence cohomology.
-    vr_cc = dionysus.fill_rips(X_cc[:,:,2], 2, 2.) #Vietoris-Rips complex
+    vr_cc = dionysus.fill_rips(X_cc[:,:,0], 2, 2.) #Vietoris-Rips complex
     cp_cc = dionysus.cohomology_persistence(vr_cc, prime, True) #Create the persistent cohomology based on the chosen parameters.
     dgms_cc = dionysus.init_diagrams(cp_cc, vr_cc) #Calculate the persistent diagram using␣ the designated coefficient field and complex.
     fig = plt.figure(figsize=(4,4), dpi=100)
@@ -416,109 +304,4 @@ with PdfPages('fig_cc-pca_cc_ph.pdf') as pdf:
     #dionysus.plot.plot_diagram(dgms[0], show=True)
     #Plot the barcode and diagrams using matplotlib incarnation within Dionysus2. This mechanism is different in Dionysus.
     pdf.savefig(fig)
-
-
-# In[49]:
-
-
-from Python_code import PCAtool as PCAtool
-X_pca = PCAtool.pca(X, K=2)
-
-with PdfPages('fig_cc-pca_pca_scatter.pdf') as pdf:
-    fig = plt.figure(figsize=(4,4), dpi=100)
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    plt.gca().set_aspect('equal', 'datalim')
-    plt.scatter(X_pca[:, 0], X_pca[:, 1], s=10, c='b')
-    plt.axis('equal')
-    plt.title('Scatter plot of PCA')
-    pdf.savefig(fig)
-
-
-# For the PCA representation, to be comparable with
-# the circular coordinates, we choose the projection dimension to be
-# $2$. The resulting PCA representation $X^{pca}$ is in the plot. From
-# the plot, we can see that the $1$-dimensional cohomological structure
-# of the original data $X$ is collapsed in $X^{pca}$. And the persistent
-# cohomology of $X^{pca}$ is in the plot. As you can see, the 1-dimensional
-# persistent cohomology of $X^{pca}$ in the plot contains $3$ topological features,
-# which is different from the 1-dimensional persistent cohomology of
-# the original data $X$. Hence the topological structure
-# of the original data is not preserved.
-
-# In[51]:
-
-
-with PdfPages('fig_cc-pca_pca_ph.pdf') as pdf:
-    prime = 23 #choose the prime base for the coefficient field that we use to construct the persistence cohomology.
-    vr_pca = dionysus.fill_rips(X_pca, 2, 2.) #Vietoris-Rips complex
-    cp_pca = dionysus.cohomology_persistence(vr_pca, prime, True) #Create the persistent cohomology based on the chosen parameters.
-    dgms_pca = dionysus.init_diagrams(cp_pca, vr_pca) #Calculate the persistent diagram using␣ the designated coefficient field and complex.
-    fig = plt.figure(figsize=(4,4), dpi=100)
-    plt.xlim([0, 2])
-    plt.yticks([])
-    plt.title('Barcode(dim 1) of PCA')
-    dionysus.plot.plot_bars(dgms_pca[1], show=True)
-    #dionysus.plot.plot_diagram(dgms_pca[1], show=True)
-    #dionysus.plot.plot_diagram(dgms[0], show=True)
-    #Plot the barcode and diagrams using matplotlib incarnation within Dionysus2. This mechanism is different in Dionysus.
-    pdf.savefig(fig)
-
-
-# In[52]:
-
-
-X2 = np.transpose(np.vstack((X[:, 0] * X[:, 0],
-                             X[:, 0] * X[:, 1],
-                             X[:, 0] * X[:, 2],
-                             X[:, 1] * X[:, 1],
-                             X[:, 1] * X[:, 2],
-                             X[:, 2] * X[:, 2]
-                            )))
-
-X2_pca = PCAtool.pca(X2, K=2)
-
-with PdfPages('fig_cc-pca2_dataset_scatter.pdf') as pdf:
-    fig = plt.figure(figsize=(4,4), dpi=100)
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    plt.gca().set_aspect('equal', 'datalim')
-    plt.scatter(X2_pca[:, 0], X2_pca[:, 1], s=10, c='b')
-    plt.axis('equal')
-    plt.title('Scatter plot of PCA2')
-    pdf.savefig(fig)
-
-
-# In[53]:
-
-
-X3 = np.transpose(np.vstack((X[:, 0] * X[:, 0] * X[:, 0],
-                             X[:, 0] * X[:, 0] * X[:, 1],
-                             X[:, 0] * X[:, 0] * X[:, 2],
-                             X[:, 0] * X[:, 1] * X[:, 1],
-                             X[:, 0] * X[:, 1] * X[:, 2],
-                             X[:, 0] * X[:, 2] * X[:, 2],
-                             X[:, 1] * X[:, 1] * X[:, 1],
-                             X[:, 1] * X[:, 1] * X[:, 2],
-                             X[:, 1] * X[:, 2] * X[:, 2],
-                             X[:, 2] * X[:, 2] * X[:, 2]
-                            )))
-
-X3_pca = PCAtool.pca(X3, K=2)
-
-with PdfPages('fig_cc-pca3_dataset_scatter.pdf') as pdf:
-    fig = plt.figure(figsize=(4,4), dpi=100)
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    plt.gca().set_aspect('equal', 'datalim')
-    plt.scatter(X3_pca[:, 0], X3_pca[:, 1], s=10, c='b')
-    plt.axis('equal')
-    plt.title('Scatter plot of PCA3')
-    pdf.savefig(fig)
-
-
-# In[ ]:
-
-
-
 
