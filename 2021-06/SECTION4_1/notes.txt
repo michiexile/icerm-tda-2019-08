@@ -1,0 +1,46 @@
+Sonar data of M. Robinson's apartment ceiling fan
+======
+
+Data files and format:
+------
+Raw data format a rectangular matrix of floating point numbers.  Each line in the file represents a row.  (I used "save -ascii <filename> <variable>" in GNU Octave to make these.  You can do "load -ascii <filename>" in Matlab to load them.)
+Each column represents a single sonar pulse, each row represents a particular range bin (distance from the sonar).  There are 175 pulses (columns) in each raw data file
+Axis for the rows are in rows.txt.  They are in centimeters.
+Axis for the columns are in cols.txt.  They are in seconds elapsed since the collection began
+
+Raw data:
+collection_3.txt: Rotating counterclockwise, 1/3 Hz
+collection_4.txt: Rotating counterclockwise, 1 Hz
+collection_5.txt: Rotating clockwise, 1 Hz
+
+Distance data:
+dst_x_y.txt: a square matrix of data (175 x 175) representing the L2 distance between pairs of pulses, one from collection_x and one from collection_y
+
+What I'm hoping to try:
+-----
+The fan speed is not actually constant (it slows down during each collection).  I would like to identify the parametrization of the fan's rotation from the data, or at least an estimate of its rotation rate.  To be clear, I have an algorithm that does this, but I'm suspicious it's not as robust as I'd like.  (Simulation shows that I need about 10 dB SNR to make it work.  That's kind of uninspiring.)
+  
+1. Try to see if each raw data file (collection_x.txt) is quasi-periodic, using each pulse (column) as a measurement.  There may not be enough SNR to make this work, but it would be cool if it does.  IMPORTANT NOTE: you should probably skip the first 250 rows in the raw data
+
+collection_x_cropped=collection_x(250:end,:);
+
+before trying this.  Otherwise, you let in a lot of near-in clutter (not near the fan, but near the sonar), which may mess with your process.  Try it both ways.  It's a big win if you can discover the period without cropping.
+
+2. See if the pairwise distance matrices are quasi-periodic in rows or columns.  If you just plot these, it's pretty clear that they ought to be!  I've successfully used a more standard (but fancy) algorithm on this data, so it would be good comparison between my algorithm and your persistent cohomology tool.  This distance computation is a kind of nonlinear filter.  I also have a linear matched filter version, but it seems to be pretty similar.
+
+Hardware setup:
+-----
+Sonar placed on wood floor, about 2 inches from bedding (87 inches from farther wall), 43 inches from wall
+Room is 170x112 inches
+Ceiling is 92 inches from floor
+Ceiling fan blades are 85 inches from floor
+Ceiling fan blades are 23 inches long
+Ceiling fan has 4 blades
+
+Calculations:
+-----
+Floor to ceiling range: 234 cm
+Floor to blade range: 216 cm
+Blade length: 58 cm
+Ceiling fan blade tip speed: 367 - 1101 cm/s
+Ceiling fan hub center is 140 cm from wall 

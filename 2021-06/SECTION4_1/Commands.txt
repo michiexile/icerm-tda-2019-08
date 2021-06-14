@@ -1,0 +1,4 @@
+python GCC2.py collection_3_tshort.txt -1 2 1e-5 1 2 1000 
+python GCC2.py collection_4_tshort.txt -1 2 1e-5 1 2 1000 
+python GCC2.py collection_5_tshort.txt -1 2 1e-5 1 2 1000 
+

@@ -1,0 +1,4 @@
+python GCC2.py us.congress.1990.votes.txt 1 1000 1e-5 1 2 1000 
+python GCC2.py us.congress.1998.votes.txt 1 1000 1e-5 1 2 1000 
+python GCC2.py us.congress.2006.votes.txt 1 1000 1e-5 1 2 1000 
+
