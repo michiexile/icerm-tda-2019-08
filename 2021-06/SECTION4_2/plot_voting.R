@@ -1,4 +1,4 @@
-#setwd('D:\\ATMCS2020\\voting_data\\GCC_politics_voting_19902016')
+setwd('/media/hrluo/ALL/icerm-tda-2019-08/2021-06/SECTION4_2')
 #year<-1990
 #lambda<-0
 library(clusterCrit)
@@ -41,12 +41,15 @@ for(year in c(1990,1998,2006)){
   #df_GCC_mod1<-cbind( abs(df$GCC),abs(df$GCC+1) )
   #df$GCC<-apply(df_GCC_mod1, 1, FUN=min)
   df$GCC<-df$GCC%%1
+  df$GCC_x<-cos(df$GCC*2*pi)
+  df$GCC_y<-sin(df$GCC*2*pi)
+  
   library(ggplot2)
-  intIdx <- clusterCrit::intCriteria(t(t(df$GCC)),as.integer(df$party),"all")
+  #intIdx <- clusterCrit::intCriteria(cbind(df$GCC_x,df$GCC_y),as.integer(df$party),"all")
   #extIdx <- clusterCrit::extCriteria()
   
-  sharedTitle<-paste0('Year ',year,' GCC (mod 1) with penalty=',1-lambda,'*L^1+',lambda,'*L^2','\n DBI=',round(intIdx$davies_bouldin,3),' CHI=',round(intIdx$calinski_harabasz,3),' SIL=',round(intIdx$silhouette,3))
-  
+  #sharedTitle<-paste0('Year ',year,' GCC (mod 1) with penalty=',1-lambda,'*L^1+',lambda,'*L^2','\n DBI=',round(intIdx$davies_bouldin,3),' CHI=',round(intIdx$calinski_harabasz,3),' SIL=',round(intIdx$silhouette,3))
+  sharedTitle<-'Single'
   gp1<-ggplot()+geom_point(data=df,aes(x=voter,y=GCC,shape=cocycle,colour=party, fill=party),size=3,pch=21)+
     #geom_col(data=df,aes(x=voter,y=GCC,fill=cocycle),position='stack')+
     #geom_point(data=as.data.frame(matrix(NA,nrow=N_total)),aes(x=1:N_total,y=rep(0,N_total),colour=party, fill=party),size=3)+
@@ -59,6 +62,18 @@ for(year in c(1990,1998,2006)){
   }
   df1<-as.data.frame(df1)
   colnames(df1)<-c('voter','GCC')
+  
+  df1$GCC<-df1$GCC%%1
+  df1$GCC_x<-cos(df1$GCC*2*pi)
+  df1$GCC_y<-sin(df1$GCC*2*pi)
+  df1$party<-party
+  library(ggplot2)
+  gc()
+  intIdx1 <- clusterCrit::intCriteria(cbind(df1$GCC_x,df1$GCC_y),as.integer(df1$party),"all")
+  #extIdx <- clusterCrit::extCriteria()
+  sharedTitle<-paste0('Year ',year,' GCC (mod 1) with penalty=',1-lambda,'*L^1+',lambda,'*L^2','\n DBI=',round(intIdx1$davies_bouldin,3),' CHI=',round(intIdx1$calinski_harabasz,3),' TAU=',round(intIdx1$tau,3))
+  
+  
   gp2<-ggplot()+#geom_line(data=df1,aes(x=voter,y=GCC))+
     geom_point(data=as.data.frame(matrix(NA,nrow=N_total)),aes(x=1:N_total,y=df1$GCC%%1,colour=party, fill=party),size=3,pch=21)+
     theme_bw()+xlim(0,450)+ylim(-0.05,1.05)+xlab('voter')+ylab('GCC')+
